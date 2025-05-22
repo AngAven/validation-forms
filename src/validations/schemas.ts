@@ -1,4 +1,5 @@
 import {z} from 'zod';
+import { validateCreditCardWithLuhn } from './utils';
 
 export const loginSchema = z.object({
     numeroCuenta: z.string()
@@ -17,8 +18,7 @@ export const tarjetaSchema = z.object({
         .min(1, 'El nombre es requerido'),
     numeroTarjeta: z.string()
         .min(1, 'El número de tarjeta es requerido')
-        .refine((val) => !val || /^\d{10}$|^\d{16}$/.test(val), 'El número de tarjeta debe tener 10 o 16 dígitos')
-        .refine((val) => !val || !val.includes(' '), 'El número de tarjeta no debe contener espacios'),
+        .refine((val) => !val || validateCreditCardWithLuhn(val), 'El número de tarjeta no es válido según el algoritmo Luhn'),
     mes: z.string()
         .min(1, 'El mes es requerido')
         .refine((val) => !val || /^([1-9]|0[1-9]|1[0-2])$/.test(val), 'El mes debe estar entre 1 y 12')
