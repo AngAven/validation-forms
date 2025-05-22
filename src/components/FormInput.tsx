@@ -36,11 +36,6 @@ export const FormInput: React.FC<FormInputProps> = ({
           {...register(name)}
           placeholder={placeholder}
           className={errors[name] ? 'error' : ''}
-          onKeyDown={(e) => {
-            if (e.key === ' ') {
-              e.preventDefault();
-            }
-          }}
         />
         {type === 'password' && (
           <button 
